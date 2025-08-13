@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reward Task Example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #808080;
+            color: #ffd700;
+            padding: 20px;
+            box-sizing: border-box;
+            padding-bottom: 90px;
+        }
+        .user-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            background: #333333;
+            border: 2px solid #0040ff;
+            border-radius: 15px;
+            margin-top: 30px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .user-details h2 { margin: 0; font-size: 18px; }
+        .ad-container {
+            text-align: center;
+            padding: 30px;
+            background: #333333;
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            color: #ffd700;
+            margin: 40px auto 20px;
+            box-sizing: border-box;
+        }
+        .ad-container h1 { margin-bottom: 10px; color: #ffd700; font-size: 1.6rem; }
+        .reward-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #1a1a1a;
+            background-color: #ffff;
+            border: none;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0px 5px 15px rgba(255, 215, 0, 0.4);
+            font-weight: bold;
+            margin: 10px 0;
+            width: 100%;
+        }
+        .reward-button:hover { background-color: #e5c100; transform: scale(1.05); }
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 600px;
+            background: #333333;
+            padding: 15px 0;
+            color: #ffd700;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .bottom-nav a { text-align: center; color: #ffd700; font-size: 1.2em; text-decoration: none; flex: 1; }
+        .bottom-nav a:hover { color: #fff700; }
+    </style>
+</head>
+<body>
+    <div class="user-card">
+        <div>
+            <h2 id="userName">Your Name</h2>
+            <p>Number - <span id="userNumber">000000</span></p>
+        </div>
+        <div>
+            <p>Points: <span id="userPoints">0</span></p>
+            <p>Balance: $<span id="userBalance">0.00</span></p>
+        </div>
+    </div>
+
+    <div class="ad-container">
+        <h1>Complete Reward Tasks</h1>
+        <button class="reward-button" onclick="showMonetag()">Watch Ad (Monetag)</button>
+        <button class="reward-button" onclick="showAdsterra()">Watch Ad (Adsterra)</button>
+        <button class="reward-button" onclick="showGigapub()">Watch Ad (Gigapub)</button>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="#"><i class="fas fa-home"></i>Home</a>
+        <a href="https://t.me/team_bx1"><i class="fas fa-share-alt"></i>Share</a>
+        <a href="https://t.me/@bxperfect" target="_blank"><i class="fas fa-user-tie"></i>Developer</a>
+    </div>
+
+    <!-- Monetag Script -->
+    <script src='//libtl.com/sdk.js' data-zone='9709440' data-sdk='show_9709440'></script>
+
+    <script>
+        let points = parseInt(localStorage.getItem('userPoints') || '0');
+        let balance = parseFloat(localStorage.getItem('userBalance') || '0.00');
+
+        function updateBalance() {
+            document.getElementById('userPoints').textContent = points;
+            document.getElementById('userBalance').textContent = balance.toFixed(2);
+            localStorage.setItem('userPoints', points);
+            localStorage.setItem('userBalance', balance.toFixed(2));
+        }
+
+        function addReward() {
+            points += 10;
+            balance += 0.01;
+            updateBalance();
+            alert('You have earned 10 points!');
+        }
+
+        function showMonetag() {
+            if (typeof show_9709440 === 'function') {
+                show_9709440().then(addReward).catch(() => alert('Monetag ad not available.'));
+            }
+        }
+
+        function showAdsterra() {
+            window.open('https://www.profitableratecpm.com/ygvx6e0t?key=5ea7d587da4d2331b8576229943a202e', '_blank');
+            addReward();
+        }
+
+        function showGigapub() {
+            let script = document.createElement('script');
+            script.src = "https://ad.gigapub.tech/script?id=1659";
+            document.body.appendChild(script);
+            addReward();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateBalance);
+    </script>
+</body>
+</html>
