@@ -93,21 +93,22 @@
 
     <div class="ad-container">
         <h1>Complete Reward Tasks</h1>
-        <button class="reward-button" onclick="showMonetag()">Watch Ad (Monetag)</button>
-        <button class="reward-button" onclick="showAdsterra()">Watch Ad (Adsterra)</button>
-        <button class="reward-button" onclick="showGigapub()">Watch Ad (Gigapub)</button>
+        <button class="reward-button" id="monetagBtn">Watch Ad (Monetag)</button>
+        <button class="reward-button" id="adsterraBtn">Watch Ad (Adsterra)</button>
+        <button class="reward-button" id="gigapubBtn">Watch Ad (Gigapub)</button>
     </div>
 
     <div class="bottom-nav">
         <a href="#"><i class="fas fa-home"></i>Home</a>
-        <a href="https://t.me/team_bx1"><i class="fas fa-share-alt"></i>Share</a>
-        <a href="https://t.me/@bxperfect" target="_blank"><i class="fas fa-user-tie"></i>Developer</a>
+        <a href="https://t.me/itz_arefin"><i class="fas fa-share-alt"></i>Share</a>
+        <a href="https://t.me/@itz_arefin" target="_blank"><i class="fas fa-user-tie"></i>Developer</a>
     </div>
 
     <!-- Monetag Script -->
-    <script src='//libtl.com/sdk.js' data-zone='9709440' data-sdk='show_9709440'></script>
+    <script src="//libtl.com/sdk.js" data-zone="9709440" data-sdk="show_9709440"></script>
 
     <script>
+        // User data
         let points = parseInt(localStorage.getItem('userPoints') || '0');
         let balance = parseFloat(localStorage.getItem('userBalance') || '0.00');
 
@@ -122,26 +123,42 @@
             points += 10;
             balance += 0.01;
             updateBalance();
-            alert('You have earned 10 points!');
+            alert('You earned 10 points!');
         }
 
-        function showMonetag() {
-            if (typeof show_9709440 === 'function') {
+        // Monetag ad handling
+        let monetagReady = false;
+        window.addEventListener('load', () => {
+            if (typeof show_9709440 === 'function') monetagReady = true;
+        });
+
+        document.getElementById('monetagBtn').addEventListener('click', () => {
+            if (monetagReady) {
                 show_9709440().then(addReward).catch(() => alert('Monetag ad not available.'));
+            } else {
+                alert('Monetag ad not loaded yet, try again.');
             }
-        }
+        });
 
-        function showAdsterra() {
+        // Adsterra ad handling
+        document.getElementById('adsterraBtn').addEventListener('click', () => {
             window.open('https://www.profitableratecpm.com/ygvx6e0t?key=5ea7d587da4d2331b8576229943a202e', '_blank');
             addReward();
-        }
+        });
 
-        function showGigapub() {
+        // Gigapub ad handling
+        document.getElementById('gigapubBtn').addEventListener('click', () => {
             let script = document.createElement('script');
             script.src = "https://ad.gigapub.tech/script?id=1659";
+            script.onload = () => {
+                if (typeof GigaPubAd === 'object' && typeof GigaPubAd.showAd === 'function') {
+                    GigaPubAd.showAd().then(addReward).catch(() => alert('Gigapub ad not available.'));
+                } else {
+                    alert('Gigapub ad not available.');
+                }
+            };
             document.body.appendChild(script);
-            addReward();
-        }
+        });
 
         document.addEventListener('DOMContentLoaded', updateBalance);
     </script>
